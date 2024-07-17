@@ -1,0 +1,33 @@
+﻿@page
+@model Renting.Web.Pages.Drones.IndexModel
+@using Renting.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Renting.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RentingResource> L
+@inject IAuthorizationService AuthorizationService
+@section scripts
+{
+    <abp-script src="/Pages/Drones/Index.js" />
+}
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Drones"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                @if (await AuthorizationService.IsGrantedAsync(RentingPermissions.Drones.Create))
+                {
+                    <abp-button id="NewDroneButton"
+                                text="@L["NewDrone"].Value"
+                                icon="plus"
+                                button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="DronesTable"></abp-table>
+    </abp-card-body>
+</abp-card>

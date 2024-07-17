@@ -1,0 +1,33 @@
+﻿@page
+@model Renting.Web.Pages.Reviews.IndexModel
+@using Renting.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Renting.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<RentingResource> L
+@inject IAuthorizationService AuthorizationService
+@section scripts
+{
+    <abp-script src="/Pages/Reviews/Index.js" />
+}
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Reviews"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                @if (await AuthorizationService.IsGrantedAsync(RentingPermissions.Reviews.Create))
+                {
+                    <abp-button id="NewReviewButton"
+                                text="@L["NewReview"].Value"
+                                icon="plus"
+                                button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="ReviewsTable"></abp-table>
+    </abp-card-body>
+</abp-card>
